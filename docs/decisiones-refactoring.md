@@ -1,10 +1,10 @@
 # Decisiones de diseño y refactoring
 
-## Objetivo
+## 1. Objetivo
 
 Mejorar la estructura interna del Sistema de Gestión de Solicitudes Académicas mediante la aplicación de principios SOLID y buenas prácticas de Clean Code, conservando las funcionalidades existentes.
 
-## Problemas que se busca resolver
+## 2. Problemas identificados
 
 A partir del diagnóstico de la versión inicial, se identificaron los siguientes problemas:
 
@@ -15,25 +15,46 @@ A partir del diagnóstico de la versión inicial, se identificaron los siguiente
 - Validaciones y valores permitidos distribuidos en distintas funciones.
 - Manejo genérico de excepciones.
 
-## Decisiones de diseño
+## 3. Decisiones de diseño implementadas
 
-Se propone reorganizar el sistema mediante una arquitectura por capas:
+Se reorganizó el sistema mediante una arquitectura por capas:
 
-- **Router:** gestionará la interacción con el usuario y el menú de opciones.
-- **Service:** contendrá las reglas de negocio y coordinará las operaciones.
-- **Repository:** centralizará las consultas y operaciones sobre la base de datos.
-- **Model:** representará las entidades principales del sistema.
+| Componente | Responsabilidad |
+|---|---|
+| Router | Gestiona la interacción con el usuario y el menú de opciones. |
+| Service | Contiene las reglas de negocio, validaciones y coordinación de operaciones. |
+| Repository | Centraliza las consultas y operaciones sobre la base de datos. |
+| Model | Representa las entidades principales del sistema. |
+| Database | Centraliza la conexión y la inicialización de las tablas. |
 
-## Principios y buenas prácticas
+Esta distribución permitió separar las responsabilidades que anteriormente estaban concentradas en el archivo principal.
 
-Se priorizará la aplicación del principio de responsabilidad única (SRP), buscando que cada componente tenga una función claramente definida.
+## 4. Principios y buenas prácticas aplicados
 
-También se evaluará la aplicación de OCP y DIP cuando corresponda al diseño de los componentes.
+Se priorizó el principio de Responsabilidad Única (SRP), asignando a cada componente una función específica.
 
-Se utilizarán buenas prácticas de Clean Code, como nombres descriptivos, funciones con responsabilidades concretas, menor duplicación y manejo específico de errores.
+También se aplicaron criterios de Clean Code, como:
 
-## Criterio de conservación funcional
+- Nombres descriptivos para clases, métodos y variables.
+- Separación de responsabilidades.
+- Centralización de las operaciones de conexión a la base de datos.
+- Concentración de las validaciones de negocio en la capa de servicios.
+- Reducción del acoplamiento entre la interacción con el usuario y el acceso a datos.
 
-Las mejoras se realizarán manteniendo las funcionalidades de la versión inicial: registro de estudiantes, registro de responsables, registro de solicitudes, modificación de estados, asignación de responsables, búsqueda, filtrado y generación de reportes.
+## 5. Conservación del comportamiento funcional
 
-Se realizarán pruebas funcionales posteriores para comparar los resultados con los obtenidos en la versión inicial.
+Durante el proceso de refactoring se mantuvieron las funcionalidades de la versión inicial:
+
+- Registro de estudiantes.
+- Registro de responsables.
+- Registro de solicitudes.
+- Modificación de estados.
+- Asignación de responsables.
+- Búsqueda y filtrado de solicitudes.
+- Generación de reportes.
+
+La conservación del comportamiento se verificó mediante la ejecución de los mismos diez casos de prueba funcionales utilizados en la versión inicial.
+
+## 6. Resultado
+
+La reorganización permitió mejorar la estructura interna del sistema, facilitando la identificación de responsabilidades y el mantenimiento del código, sin modificar las funcionalidades principales.

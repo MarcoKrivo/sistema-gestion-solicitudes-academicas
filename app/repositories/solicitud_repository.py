@@ -1,4 +1,5 @@
 from app.database.connection import conectar
+from app.models.filtros_solicitud import FiltrosSolicitud
 
 
 class SolicitudRepository:
@@ -46,30 +47,36 @@ class SolicitudRepository:
         finally:
             conn.close()
 
-    def buscar(self, estado=None, prioridad=None):
+    def buscar(self, filtros: FiltrosSolicitud):
         conn = conectar()
         try:
             consulta = """
                 SELECT s.id, e.nombre, s.tipo, s.descripcion,
-                       s.prioridad, s.estado, r.nombre
+                    s.prioridad, s.estado, r.nombre
                 FROM solicitudes s
                 JOIN estudiantes e ON s.estudiante_id = e.id
                 LEFT JOIN responsables r ON s.responsable_id = r.id
                 WHERE 1 = 1
             """
+
             parametros = []
 
-            if estado:
+            if filtros.estado:
                 consulta += " AND s.estado = ?"
-                parametros.append(estado)
+                parametros.append(filtros.estado)
 
-            if prioridad:
+            if filtros.prioridad:
                 consulta += " AND s.prioridad = ?"
-                parametros.append(prioridad)
+                parametros.append(filtros.prioridad)
+
+            if filtros.tipo:
+                consulta += " AND s.tipo = ?"
+                parametros.append(filtros.tipo)
 
             cursor = conn.cursor()
             cursor.execute(consulta, parametros)
             return cursor.fetchall()
+
         finally:
             conn.close()
 

@@ -1,6 +1,7 @@
 import sqlite3
+from pathlib import Path
 
-DB_NAME = "solicitudes.db"
+DB_NAME = Path(__file__).resolve().parents[2] / "solicitudes.db"
 
 
 def conectar():
